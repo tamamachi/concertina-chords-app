@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/App.css';
 import chords from './data/chords.json'; // Import chord data
 import keymap from './data/keymap.json'; // Import keymap data
@@ -12,6 +12,11 @@ function App() {
     const [toneButtonsPull, setToneButtonsPull] = useState({}); // Buttons for pull
     const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     const chordTypes = ['M', 'm', '7', 'm7', 'M7', 'm7-5', 'sus4', 'dim', 'aug']; // Chord types
+
+    useEffect(() => {
+        // Initialize playability and button information for C major on page load
+        updatePlayability('C', 'M');
+    }, []);
 
     const handleNoteClick = (note) => {
         setSelectedNote(note);
