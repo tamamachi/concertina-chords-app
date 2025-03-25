@@ -78,6 +78,15 @@ function App() {
         setToneButtons(toneToButtons);
     };
 
+    const getToneColors = (toneButtons, baseHue) => {
+        const toneColors = {};
+        Object.keys(toneButtons).forEach((tone, index) => {
+            const hue = (baseHue + index * 20) % 360; // Increment hue by 20 degrees for each tone
+            toneColors[tone] = `hsl(${hue}, 100%, 50%)`; // Generate HSL color
+        });
+        return toneColors;
+    };
+
     const getButtonColors = (toneButtons, baseHue) => {
         const leftButtonColors = {};
         const rightButtonColors = {};
@@ -94,10 +103,29 @@ function App() {
         return { leftButtonColors, rightButtonColors };
     };
 
+    const renderChordTonesWithColors = (chordTones, toneColors) => {
+        return chordTones.map((tone, index) => (
+            <span
+                key={index}
+                style={{
+                    backgroundColor: toneColors[tone] || 'transparent', // Use the tone color for background
+                    color: 'black', // Default text color
+                    padding: '2px 5px',
+                    borderRadius: '3px',
+                    marginRight: '5px',
+                }}
+            >
+                {tone}
+            </span>
+        ));
+    };
+
     const chordKey = selectedChord === 'M' ? selectedNote : `${selectedNote}${selectedChord}`;
     const chordTones = chords[chordKey] || []; // Get chord tones from JSON
     const { leftButtonColors: pushLeftColors, rightButtonColors: pushRightColors } = getButtonColors(toneButtonsPush, 0); // Push starts at hue 0
     const { leftButtonColors: pullLeftColors, rightButtonColors: pullRightColors } = getButtonColors(toneButtonsPull, 180); // Pull starts at hue 210
+    const pushToneColors = getToneColors(toneButtonsPush, 0); // Push starts at hue 0
+    const pullToneColors = getToneColors(toneButtonsPull, 180); // Pull starts at hue 180
 
     return (
         <div className="App">
@@ -110,18 +138,25 @@ function App() {
                 onNoteClick={handleNoteClick}
                 onChordClick={handleChordClick}
             />
-            <div style={{ marginTop: '30px', textAlign: 'center', fontSize: '24px', fontWeight: 'bold' }}>
-                {chordKey}
-            </div>
             <div style={{ marginTop: '30px', textAlign: 'center' }}>
-                <h2>Push Diagram: {isPushPlayable ? chordTones.join(', ') : 'Not Playable'}</h2>
+                <h2>
+                    Push Diagram:{' '}
+                    {isPushPlayable
+                        ? renderChordTonesWithColors(chordTones, pushToneColors)
+                        : 'Not Playable'}
+                </h2>
                 <KeyboardDiagram
                     leftButtonColors={isPushPlayable ? pushLeftColors : {}} // Clear colors if not playable
                     rightButtonColors={isPushPlayable ? pushRightColors : {}} // Clear colors if not playable
                 />
             </div>
             <div style={{ marginTop: '30px', textAlign: 'center' }}>
-                <h2>Pull Diagram: {isPullPlayable ? chordTones.join(', ') : 'Not Playable'}</h2>
+                <h2>
+                    Pull Diagram:{' '}
+                    {isPullPlayable
+                        ? renderChordTonesWithColors(chordTones, pullToneColors)
+                        : 'Not Playable'}
+                </h2>
                 <KeyboardDiagram
                     leftButtonColors={isPullPlayable ? pullLeftColors : {}} // Clear colors if not playable
                     rightButtonColors={isPullPlayable ? pullRightColors : {}} // Clear colors if not playable
