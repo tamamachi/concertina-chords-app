@@ -77,23 +77,26 @@ function App() {
         setToneButtons(toneToButtons);
     };
 
-    const getButtonColors = (toneButtons, color) => {
-        const buttonColors = {};
-        Object.entries(toneButtons).forEach(([tone, sides]) => {
+    const getButtonColors = (toneButtons, baseHue) => {
+        const leftButtonColors = {};
+        const rightButtonColors = {};
+        Object.entries(toneButtons).forEach(([tone, sides], index) => {
+            const hue = (baseHue + index * 20) % 360; // Increment hue by 20 degrees for each tone
+            const color = `hsl(${hue}, 100%, 50%)`; // Generate HSL color
             sides.left.forEach((button) => {
-                buttonColors[button] = color; // Color left-hand buttons
+                leftButtonColors[button] = color; // Color left-hand buttons
             });
             sides.right.forEach((button) => {
-                buttonColors[button] = color; // Color right-hand buttons
+                rightButtonColors[button] = color; // Color right-hand buttons
             });
         });
-        return buttonColors;
+        return { leftButtonColors, rightButtonColors };
     };
 
     const chordKey = selectedChord === 'M' ? selectedNote : `${selectedNote}${selectedChord}`;
     const chordTones = chords[chordKey] || []; // Get chord tones from JSON
-    const pushButtonColors = getButtonColors(toneButtonsPush, 'red'); // Colors for push buttons
-    const pullButtonColors = getButtonColors(toneButtonsPull, 'blue'); // Colors for pull buttons
+    const { leftButtonColors: pushLeftColors, rightButtonColors: pushRightColors } = getButtonColors(toneButtonsPush, 0); // Push starts at hue 0
+    const { leftButtonColors: pullLeftColors, rightButtonColors: pullRightColors } = getButtonColors(toneButtonsPull, 210); // Pull starts at hue 210
 
     return (
         <div className="App">
@@ -148,11 +151,23 @@ function App() {
             </div>
             <div style={{ marginTop: '30px', textAlign: 'center' }}>
                 <h2>Push Diagram</h2>
-                <KeyboardDiagram buttonColors={pushButtonColors} />
+                <KeyboardDiagram leftButtonColors={pushLeftColors} rightButtonColors={pushRightColors} />
             </div>
             <div style={{ marginTop: '30px', textAlign: 'center' }}>
                 <h2>Pull Diagram</h2>
-                <KeyboardDiagram buttonColors={pullButtonColors} />
+                <KeyboardDiagram leftButtonColors={pullLeftColors} rightButtonColors={pullRightColors} />
+            </div>
+            <div style={{ marginTop: '30px', textAlign: 'center' }}>
+                <h2>Debug Information</h2>
+                <div>
+                    <strong>Chord Tones:</strong> {chordTones.join(', ')}
+                </div>
+                <div>
+                    <strong>Push Buttons:</strong> {JSON.stringify(toneButtonsPush, null, 2)}
+                </div>
+                <div>
+                    <strong>Pull Buttons:</strong> {JSON.stringify(toneButtonsPull, null, 2)}
+                </div>
             </div>
         </div>
     );

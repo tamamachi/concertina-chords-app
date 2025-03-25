@@ -1,7 +1,7 @@
 import React from 'react';
 import keymap from '../data/keymap.json'; // Import keymap data
 
-const renderLeftHandButtons = (buttonColors) => {
+const renderLeftHandButtons = (leftButtonColors) => {
     const positions = [
         { x: 50, y: 150 }, { x: 100, y: 150 }, { x: 150, y: 150 }, { x: 200, y: 150 }, { x: 250, y: 150 }, { x: 300, y: 150 },
         { x: 50, y: 200 }, { x: 100, y: 200 }, { x: 150, y: 200 }, { x: 200, y: 200 }, { x: 250, y: 200 }, { x: 300, y: 200 },
@@ -18,7 +18,7 @@ const renderLeftHandButtons = (buttonColors) => {
             />
             {positions.map((pos, index) => {
                 const button = keymap['40-button'].left[index]?.button || `L${index + 1}`;
-                const color = buttonColors[button] || 'white';
+                const color = leftButtonColors[button] || 'white';
                 return (
                     <g key={`left-${index}`}>
                         <circle cx={pos.x} cy={pos.y} r="20" fill={color} stroke="black" />
@@ -30,7 +30,7 @@ const renderLeftHandButtons = (buttonColors) => {
     );
 };
 
-const renderRightHandButtons = (buttonColors) => {
+const renderRightHandButtons = (rightButtonColors) => {
     const positions = [
         { x: 450, y: 150 }, { x: 500, y: 150 }, { x: 550, y: 150 }, { x: 600, y: 150 }, { x: 650, y: 150 }, { x: 700, y: 150 }, { x: 750, y: 150 },
         { x: 450, y: 200 }, { x: 500, y: 200 }, { x: 550, y: 200 }, { x: 600, y: 200 }, { x: 650, y: 200 }, { x: 700, y: 200 },
@@ -48,7 +48,7 @@ const renderRightHandButtons = (buttonColors) => {
             />
             {positions.map((pos, index) => {
                 const button = keymap['40-button'].right[index]?.button || `R${index + 1}`;
-                const color = buttonColors[button] || 'white';
+                const color = rightButtonColors[button] || 'white';
                 return (
                     <g key={`right-${index}`}>
                         <circle cx={pos.x} cy={pos.y} r="20" fill={color} stroke="black" />
@@ -60,11 +60,11 @@ const renderRightHandButtons = (buttonColors) => {
     );
 };
 
-const KeyboardDiagram = ({ buttonColors = {} }) => {
+const KeyboardDiagram = ({ leftButtonColors = {}, rightButtonColors = {} }) => {
     return (
         <svg width="800" height="400" style={{ border: '1px solid black' }}>
-            {renderLeftHandButtons(buttonColors)}
-            {renderRightHandButtons(buttonColors)}
+            {renderLeftHandButtons(leftButtonColors)}
+            {renderRightHandButtons(rightButtonColors)}
         </svg>
     );
 };
