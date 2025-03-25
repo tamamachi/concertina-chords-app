@@ -3,6 +3,7 @@ import './styles/App.css';
 import chords from './data/chords.json'; // Import chord data
 import keymap from './data/keymap.json'; // Import keymap data
 import KeyboardDiagram from './components/KeyboardDiagram'; // Import the new component
+import ChordSelector from './components/ChordSelector'; // Import ChordSelector
 
 function App() {
     const [selectedNote, setSelectedNote] = useState('C'); // Default to 'C'
@@ -41,7 +42,7 @@ function App() {
     };
 
     const checkPlayability = (tones, action) => {
-        const buttons = keymap['40-button'];
+        const buttons = keymap['30-button'];
         const sideButtons = [...buttons.left, ...buttons.right];
         const filteredButtons = sideButtons.filter((btn) => tones.includes(btn[action]));
 
@@ -59,7 +60,7 @@ function App() {
     };
 
     const updateToneButtons = (tones, action, setToneButtons) => {
-        const buttons = keymap['40-button'];
+        const buttons = keymap['30-button'];
         const leftButtons = buttons.left || []; // Default to empty array if undefined
         const rightButtons = buttons.right || []; // Default to empty array if undefined
 
@@ -96,66 +97,35 @@ function App() {
     const chordKey = selectedChord === 'M' ? selectedNote : `${selectedNote}${selectedChord}`;
     const chordTones = chords[chordKey] || []; // Get chord tones from JSON
     const { leftButtonColors: pushLeftColors, rightButtonColors: pushRightColors } = getButtonColors(toneButtonsPush, 0); // Push starts at hue 0
-    const { leftButtonColors: pullLeftColors, rightButtonColors: pullRightColors } = getButtonColors(toneButtonsPull, 210); // Pull starts at hue 210
+    const { leftButtonColors: pullLeftColors, rightButtonColors: pullRightColors } = getButtonColors(toneButtonsPull, 180); // Pull starts at hue 210
 
     return (
         <div className="App">
             <h1>Concertina Chords App</h1>
-            <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-                {notes.map((note) => (
-                    <button
-                        key={note}
-                        onClick={() => handleNoteClick(note)}
-                        style={{
-                            padding: '10px 20px',
-                            backgroundColor: selectedNote === note ? 'blue' : 'white',
-                            color: selectedNote === note ? 'white' : 'black',
-                            border: '1px solid black',
-                            borderRadius: '5px',
-                            cursor: 'pointer',
-                        }}
-                    >
-                        {note}
-                    </button>
-                ))}
-            </div>
-            <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-                {chordTypes.map((chord) => (
-                    <button
-                        key={chord}
-                        onClick={() => handleChordClick(chord)}
-                        style={{
-                            padding: '10px 20px',
-                            backgroundColor: selectedChord === chord ? 'green' : 'white',
-                            color: selectedChord === chord ? 'white' : 'black',
-                            border: '1px solid black',
-                            borderRadius: '5px',
-                            cursor: 'pointer',
-                        }}
-                    >
-                        {chord}
-                    </button>
-                ))}
-            </div>
+            <ChordSelector
+                notes={notes}
+                chordTypes={chordTypes}
+                selectedNote={selectedNote}
+                selectedChord={selectedChord}
+                onNoteClick={handleNoteClick}
+                onChordClick={handleChordClick}
+            />
             <div style={{ marginTop: '30px', textAlign: 'center', fontSize: '24px', fontWeight: 'bold' }}>
                 {chordKey}
             </div>
-            <div style={{ marginTop: '10px', textAlign: 'center', fontSize: '18px', color: 'gray' }}>
-                {chordTones.join(', ')} {/* Display chord tones */}
-            </div>
-            <div style={{ marginTop: '20px', textAlign: 'center', fontSize: '18px', color: isPushPlayable ? 'green' : 'red' }}>
-                Push: {isPushPlayable ? 'Playable' : 'Not Playable'}
-            </div>
-            <div style={{ marginTop: '10px', textAlign: 'center', fontSize: '18px', color: isPullPlayable ? 'green' : 'red' }}>
-                Pull: {isPullPlayable ? 'Playable' : 'Not Playable'}
+            <div style={{ marginTop: '30px', textAlign: 'center' }}>
+                <h2>Push Diagram: {isPushPlayable ? chordTones.join(', ') : 'Not Playable'}</h2>
+                <KeyboardDiagram
+                    leftButtonColors={isPushPlayable ? pushLeftColors : {}} // Clear colors if not playable
+                    rightButtonColors={isPushPlayable ? pushRightColors : {}} // Clear colors if not playable
+                />
             </div>
             <div style={{ marginTop: '30px', textAlign: 'center' }}>
-                <h2>Push Diagram</h2>
-                <KeyboardDiagram leftButtonColors={pushLeftColors} rightButtonColors={pushRightColors} />
-            </div>
-            <div style={{ marginTop: '30px', textAlign: 'center' }}>
-                <h2>Pull Diagram</h2>
-                <KeyboardDiagram leftButtonColors={pullLeftColors} rightButtonColors={pullRightColors} />
+                <h2>Pull Diagram: {isPullPlayable ? chordTones.join(', ') : 'Not Playable'}</h2>
+                <KeyboardDiagram
+                    leftButtonColors={isPullPlayable ? pullLeftColors : {}} // Clear colors if not playable
+                    rightButtonColors={isPullPlayable ? pullRightColors : {}} // Clear colors if not playable
+                />
             </div>
             <div style={{ marginTop: '30px', textAlign: 'center' }}>
                 <h2>Debug Information</h2>
