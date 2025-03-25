@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/concertina-chords-app/static/css/main.6c0421eb.css",
+    "main.js": "/concertina-chords-app/static/js/main.db4397e5.js",
+    "index.html": "/concertina-chords-app/index.html",
+    "main.6c0421eb.css.map": "/concertina-chords-app/static/css/main.6c0421eb.css.map",
+    "main.db4397e5.js.map": "/concertina-chords-app/static/js/main.db4397e5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6c0421eb.css",
+    "static/js/main.db4397e5.js"
+  ]
+}
