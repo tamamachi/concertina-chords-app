@@ -77,8 +77,23 @@ function App() {
         setToneButtons(toneToButtons);
     };
 
+    const getButtonColors = (toneButtons, color) => {
+        const buttonColors = {};
+        Object.entries(toneButtons).forEach(([tone, sides]) => {
+            sides.left.forEach((button) => {
+                buttonColors[button] = color; // Color left-hand buttons
+            });
+            sides.right.forEach((button) => {
+                buttonColors[button] = color; // Color right-hand buttons
+            });
+        });
+        return buttonColors;
+    };
+
     const chordKey = selectedChord === 'M' ? selectedNote : `${selectedNote}${selectedChord}`;
     const chordTones = chords[chordKey] || []; // Get chord tones from JSON
+    const pushButtonColors = getButtonColors(toneButtonsPush, 'red'); // Colors for push buttons
+    const pullButtonColors = getButtonColors(toneButtonsPull, 'blue'); // Colors for pull buttons
 
     return (
         <div className="App">
@@ -131,29 +146,13 @@ function App() {
             <div style={{ marginTop: '10px', textAlign: 'center', fontSize: '18px', color: isPullPlayable ? 'green' : 'red' }}>
                 Pull: {isPullPlayable ? 'Playable' : 'Not Playable'}
             </div>
-            <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                <h2>Buttons for Each Tone (Push)</h2>
-                {Object.entries(toneButtonsPush).map(([tone, buttons]) => (
-                    <div key={tone}>
-                        <strong>{tone}:</strong> 
-                        <div>Left: {buttons.left?.join(', ') || 'None'}</div>
-                        <div>Right: {buttons.right?.join(', ') || 'None'}</div>
-                    </div>
-                ))}
-            </div>
-            <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                <h2>Buttons for Each Tone (Pull)</h2>
-                {Object.entries(toneButtonsPull).map(([tone, buttons]) => (
-                    <div key={tone}>
-                        <strong>{tone}:</strong> 
-                        <div>Left: {buttons.left?.join(', ') || 'None'}</div>
-                        <div>Right: {buttons.right?.join(', ') || 'None'}</div>
-                    </div>
-                ))}
+            <div style={{ marginTop: '30px', textAlign: 'center' }}>
+                <h2>Push Diagram</h2>
+                <KeyboardDiagram buttonColors={pushButtonColors} />
             </div>
             <div style={{ marginTop: '30px', textAlign: 'center' }}>
-                <h2>Concertina Keyboard Layout</h2>
-                <KeyboardDiagram />
+                <h2>Pull Diagram</h2>
+                <KeyboardDiagram buttonColors={pullButtonColors} />
             </div>
         </div>
     );
