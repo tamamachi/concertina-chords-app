@@ -7,6 +7,7 @@ import useChordPlayability from './hooks/useChordPlayability'; // Import custom 
 function App() {
     const [selectedNote, setSelectedNote] = useState('C');
     const [selectedChord, setSelectedChord] = useState('M');
+    const [buttonMode, setButtonMode] = useState('40-button'); // Default to 40-button mode
 
     const {
         chordKey,
@@ -19,10 +20,21 @@ function App() {
         pullRightColors,
         pushToneColors,
         pullToneColors,
-    } = useChordPlayability(selectedNote, selectedChord);
+    } = useChordPlayability(selectedNote, selectedChord, buttonMode);
+
+    const handleModeChange = (event) => {
+        setButtonMode(event.target.value);
+    };
 
     return (
         <div className="App">
+            <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
+                <label htmlFor="buttonMode">Mode: </label>
+                <select id="buttonMode" value={buttonMode} onChange={handleModeChange}>
+                    <option value="40-button">40 Button</option>
+                    <option value="30-button">30 Button</option>
+                </select>
+            </div>
             <h1>Concertina Chords App</h1>
             <ChordSelector
                 notes={['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']}

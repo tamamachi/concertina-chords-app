@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import chords from '../data/chords.json';
 import keymap from '../data/keymap.json';
 
-const useChordPlayability = (selectedNote, selectedChord) => {
+const useChordPlayability = (selectedNote, selectedChord, buttonMode) => {
     const [isPushPlayable, setIsPushPlayable] = useState(false);
     const [isPullPlayable, setIsPullPlayable] = useState(false);
     const [toneButtonsPush, setToneButtonsPush] = useState({});
@@ -13,7 +13,7 @@ const useChordPlayability = (selectedNote, selectedChord) => {
 
     useEffect(() => {
         updatePlayability(selectedNote, selectedChord);
-    }, [selectedNote, selectedChord]);
+    }, [selectedNote, selectedChord, buttonMode]);
 
     const updatePlayability = (note, chord) => {
         const chordKey = chord === 'M' ? note : `${note}${chord}`;
@@ -25,7 +25,7 @@ const useChordPlayability = (selectedNote, selectedChord) => {
     };
 
     const checkPlayability = (tones, action) => {
-        const buttons = keymap['40-button'];
+        const buttons = keymap[buttonMode]; // Use buttonMode to select keymap
         const sideButtons = [...buttons.left, ...buttons.right];
         const filteredButtons = sideButtons.filter((btn) => tones.includes(btn[action]));
 
@@ -43,7 +43,7 @@ const useChordPlayability = (selectedNote, selectedChord) => {
     };
 
     const updateToneButtons = (tones, action, setToneButtons) => {
-        const buttons = keymap['40-button'];
+        const buttons = keymap[buttonMode]; // Use buttonMode to select keymap
         const leftButtons = buttons.left || [];
         const rightButtons = buttons.right || [];
 
