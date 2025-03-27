@@ -62,7 +62,11 @@ const renderRightHandButtons = (rightButtonColors) => {
 
 const KeyboardDiagram = ({ leftButtonColors = {}, rightButtonColors = {} }) => {
     return (
-        <svg width="800" height="400" style={{ border: '1px solid black' }}>
+        <svg
+            viewBox="0 0 800 400" // SVG全体の座標系を定義
+            width="100%" // 横幅を親要素に合わせる
+            height="auto" // 高さを自動調整
+        >
             {renderLeftHandButtons(leftButtonColors)}
             {renderRightHandButtons(rightButtonColors)}
         </svg>

@@ -2,8 +2,16 @@ import React from 'react';
 
 const ChordSelector = ({ notes, chordTypes, selectedNote, selectedChord, onNoteClick, onChordClick }) => {
     return (
-        <div style={{ textAlign: 'center' }}> {/* Add textAlign: 'center' for centering */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px' }}>
+        <div style={{ textAlign: 'center' }}>
+            <div
+                style={{
+                    display: 'flex',
+                    flexWrap: 'wrap', // Allow wrapping
+                    justifyContent: 'center',
+                    gap: '10px',
+                    marginTop: '20px',
+                }}
+            >
                 {notes.map((note) => (
                     <button
                         key={note}
@@ -21,7 +29,15 @@ const ChordSelector = ({ notes, chordTypes, selectedNote, selectedChord, onNoteC
                     </button>
                 ))}
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px' }}>
+            <div
+                style={{
+                    display: 'flex',
+                    flexWrap: 'wrap', // Allow wrapping
+                    justifyContent: 'center',
+                    gap: '10px',
+                    marginTop: '20px',
+                }}
+            >
                 {chordTypes.map((chord) => (
                     <button
                         key={chord}
