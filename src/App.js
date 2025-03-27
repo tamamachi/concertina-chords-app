@@ -45,7 +45,7 @@ function App() {
                 onChordClick={setSelectedChord}
             />
             <div style={{ marginTop: '30px', textAlign: 'center', fontSize: '24px', fontWeight: 'bold' }}>
-                {chordKey}
+                Selected Chord: {chordKey}
             </div>
             <div style={{ marginTop: '30px', textAlign: 'center' }}>
                 <h2>
@@ -67,10 +67,12 @@ function App() {
                           ))
                         : 'Not Playable'}
                 </h2>
-                <KeyboardDiagram
-                    leftButtonColors={isPushPlayable ? pushLeftColors : {}}
-                    rightButtonColors={isPushPlayable ? pushRightColors : {}}
-                />
+                <div style={{ maxWidth: '600px', width: '90%', margin: '0 auto' }}>
+                    <KeyboardDiagram
+                        leftButtonColors={isPushPlayable ? pushLeftColors : {}}
+                        rightButtonColors={isPushPlayable ? pushRightColors : {}}
+                    />
+                </div>
             </div>
             <div style={{ marginTop: '30px', textAlign: 'center' }}>
                 <h2>
@@ -92,10 +94,12 @@ function App() {
                           ))
                         : 'Not Playable'}
                 </h2>
-                <KeyboardDiagram
-                    leftButtonColors={isPullPlayable ? pullLeftColors : {}}
-                    rightButtonColors={isPullPlayable ? pullRightColors : {}}
-                />
+                <div style={{ maxWidth: '600px', width: '90%', margin: '0 auto' }}>
+                    <KeyboardDiagram
+                        leftButtonColors={isPullPlayable ? pullLeftColors : {}}
+                        rightButtonColors={isPullPlayable ? pullRightColors : {}}
+                    />
+                </div>
             </div>
         </div>
     );

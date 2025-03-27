@@ -14,3 +14,8 @@
         margin: 10px; /* Reduce margin for smaller screens */
     }
 }
+
+svg {
+    max-width: 100%; /* Ensure SVG scales down on smaller screens */
+    height: auto; /* Maintain aspect ratio */
+}
