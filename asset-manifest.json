@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/concertina-chords-app/static/css/main.6c0421eb.css",
-    "main.js": "/concertina-chords-app/static/js/main.db4397e5.js",
+    "main.css": "/concertina-chords-app/static/css/main.29c8a394.css",
+    "main.js": "/concertina-chords-app/static/js/main.d0572a2a.js",
     "index.html": "/concertina-chords-app/index.html",
-    "main.6c0421eb.css.map": "/concertina-chords-app/static/css/main.6c0421eb.css.map",
-    "main.db4397e5.js.map": "/concertina-chords-app/static/js/main.db4397e5.js.map"
+    "main.29c8a394.css.map": "/concertina-chords-app/static/css/main.29c8a394.css.map",
+    "main.d0572a2a.js.map": "/concertina-chords-app/static/js/main.d0572a2a.js.map"
   },
   "entrypoints": [
-    "static/css/main.6c0421eb.css",
-    "static/js/main.db4397e5.js"
+    "static/css/main.29c8a394.css",
+    "static/js/main.d0572a2a.js"
   ]
 }
